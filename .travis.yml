@@ -21,13 +21,7 @@ env:
 matrix:
   fast_finish: true
 
-install:
-- docker pull ${IMG}
-- wget ${URL}${VER}.${PKG}.deb
-
 script: |-
-  grep PRETTY /etc/os-release
-  lsb_release -d
-  cat /etc/linuxmint/info
+  wget ${URL}${VER}.${PKG}.deb
   docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
-    bash -c "lsb_release -d && apt -qy update && apt install -yqV /test/${VER}.${PKG}.deb"
+    bash -c "lsb_release -d && apt -qy update && apt install -yq /test/${VER}.${PKG}.deb"
