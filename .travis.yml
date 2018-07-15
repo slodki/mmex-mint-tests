@@ -1,0 +1,30 @@
+language: cpp
+dist: trusty
+sudo: required
+services: [ docker ]
+git: { depth: 10 } # don't clone all history from repo, leave 10 for build queue
+os: linux # default build params for matrix
+
+env:
+  global:
+  - URL=https://github.com/moneymanagerex/moneymanagerex/releases/download/nightly/
+  - VER=mmex_1.4.0-alpha.4-1
+  matrix:
+  - IMG=vcatechnology/linux-mint:18.0 PKG=xenial_amd64
+  - IMG=vcatechnology/linux-mint:18.1 PKG=xenial_amd64
+  - IMG=vcatechnology/linux-mint:18.2 PKG=xenial_amd64
+  - IMG=linuxmintd/mint18-amd64       PKG=xenial_amd64
+  - IMG=linuxmintd/mint19-amd64       PKG=bionic_amd64
+  - IMG=linuxmintd/mint18-i386        PKG=xenial_i386
+  - IMG=linuxmintd/mint19-i386        PKG=bionic_i386
+
+matrix:
+  fast_finish: true
+
+install: |-
+  docker pull ${IMG}
+  wget ${URL}${VER}.${PKG}.deb
+
+script: |-
+  docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
+    apt install /test/${VER}.${PKG}.deb
