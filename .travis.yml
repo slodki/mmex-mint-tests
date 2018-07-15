@@ -21,7 +21,7 @@ env:
 matrix:
   fast_finish: true
 
-script: |-
-  wget ${URL}${VER}.${PKG}.deb
-  docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
-    bash -c "lsb_release -d && apt -qy update && apt install -yq /test/${VER}.${PKG}.deb"
+script:
+- wget -nv ${URL}${VER}.${PKG}.deb
+- docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
+  bash -c "lsb_release -d && apt -qy update && apt install -yq /test/${VER}.${PKG}.deb"
