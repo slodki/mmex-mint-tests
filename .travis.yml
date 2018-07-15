@@ -25,9 +25,9 @@ install:
 - docker pull ${IMG}
 - wget ${URL}${VER}.${PKG}.deb
 
-before_script:
-
 script: |-
-  egrep PRETTY\|DESC /etc/os-release /etc/lsb-release
+  grep PRETTY /etc/os-release
+  lsb_release -d
+  cat /etc/linuxmint/info
   docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
-    bash -c "apt update && apt install -yqV /test/${VER}.${PKG}.deb"
+    bash -c "lsb_release -d && apt -qy update && apt install -yqV /test/${VER}.${PKG}.deb"
