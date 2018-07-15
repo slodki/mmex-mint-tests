@@ -21,10 +21,13 @@ env:
 matrix:
   fast_finish: true
 
-install: |-
-  docker pull ${IMG}
-  wget ${URL}${VER}.${PKG}.deb
+install:
+- docker pull ${IMG}
+- wget ${URL}${VER}.${PKG}.deb
+
+before_script:
+- grep DESCRIPTION /etc/lsb-release
 
 script: |-
   docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
-    apt install /test/${VER}.${PKG}.deb
+    apt install -y /test/${VER}.${PKG}.deb
