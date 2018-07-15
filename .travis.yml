@@ -30,4 +30,4 @@ before_script:
 script: |-
   egrep PRETTY\|DESC /etc/os-release /etc/lsb-release
   docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
-    apt install -yqV /test/${VER}.${PKG}.deb
+    bash -c "apt update && apt install -yqV /test/${VER}.${PKG}.deb"
