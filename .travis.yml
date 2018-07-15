@@ -26,8 +26,8 @@ install:
 - wget ${URL}${VER}.${PKG}.deb
 
 before_script:
-- grep DESCRIPTION /etc/lsb-release
 
 script: |-
+  egrep PRETTY\|DESC /etc/os-release /etc/lsb-release
   docker run -it --rm -v $TRAVIS_BUILD_DIR:/test ${IMG} \
-    apt install -y /test/${VER}.${PKG}.deb
+    apt install -yqV /test/${VER}.${PKG}.deb
